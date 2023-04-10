@@ -4,8 +4,7 @@ import EnderecoForm from "./components/EnderecoForm"
 import Agradecimento from "./components/Agradecimento"
 import DadosPessoaisForm from "./components/DadosPessoaisForm"
 import { SCButton, SCFormContainer, SCHeader } from "./styles"
-
-import { useForm } from "../hooks/useForm"
+import { useForm } from "./hooks/UseForm.jsx"
 import Passos from "./components/Passos"
 
 function App() {
@@ -40,7 +39,7 @@ function App() {
           </div>
         </form>
       </SCFormContainer>
-      
+
     </div>
   )
 }
