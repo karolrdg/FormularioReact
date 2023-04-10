@@ -1,31 +1,46 @@
-import { useState } from 'react'
+import { GrFormNextLink, GrFormPrevious } from "react-icons/gr"
+import { FiSend } from "react-icons/fi"
+import EnderecoForm from "./components/EnderecoForm"
+import Agradecimento from "./components/Agradecimento"
+import DadosPessoaisForm from "./components/DadosPessoaisForm"
+import { SCButton, SCFormContainer, SCHeader } from "./styles"
 
+import { useForm } from "../hooks/useForm"
+import Passos from "./components/Passos"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const componentesFormulario = [<DadosPessoaisForm />, <EnderecoForm />, <Agradecimento />]
+
+  const { passoAtual, componenteAtual, mudarPasso, ehUltimoPasso } = useForm(componentesFormulario)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="app">
+      <SCHeader>
+        <h2>Cadastre-se gratuitamente!</h2>
+        <p>Faça o seu cadastro para ter acesso a todos os recursos da nossa plataforma</p>
+      </SCHeader>
+
+      <SCFormContainer>
+        <form onSubmit={(e) => mudarPasso(passoAtual + 1, e)}>
+          <Passos passoAtual={passoAtual}/>
+          <div className="inputs-container">
+            {componenteAtual}
+          </div>
+          <div className="acoes">
+            {!passoAtual == 0 && 
+            <SCButton type="button" onClick={(e) => mudarPasso(passoAtual - 1, e)}>
+              <GrFormPrevious /><span>Voltar</span>
+            </SCButton>}
+            {ehUltimoPasso ? (
+              <SCButton type="submit"><span>Enviar</span><FiSend /></SCButton>
+            ) : (
+              <SCButton type="submit"><span>Avançar</span><GrFormNextLink /></SCButton>
+            )}
+          </div>
+        </form>
+      </SCFormContainer>
+      
     </div>
   )
 }
